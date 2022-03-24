@@ -1,8 +1,7 @@
 // slash commands
 
 1. Show Active Cycle issues and progress (80 issues limit)
-3. Suggest Feature / File Bug
-2. Solana Foundation grant Issues
+2. Suggest Feature / File Bug
 
 // linear webhook -> Discord message Updates
 
