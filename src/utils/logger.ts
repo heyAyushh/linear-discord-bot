@@ -1,4 +1,5 @@
 import pino from 'pino';
+import 'dotenv/config';
 
 // https://github.com/pinojs/pino/issues/673#issuecomment-506979971
 const wrap = (logger: pino.Logger) => {

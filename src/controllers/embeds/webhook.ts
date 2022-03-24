@@ -16,9 +16,9 @@ export const getWebhookEventEmbed = async (
  if (type === 'Issue') {
   const issue = await linear.issue(data.id);
   title = `${capitalize(type)}: ${issue.identifier} ${capitalize(action)}`;
-  if (issue?.description) {
-   description = issue?.description;
-  }
+  description = `${issue.title}. \n`;
+  description += issue?.description ?? '';
+
   const user = await linear.user(data.creatorId);
   fields?.push({ name: `${capitalize(action)}d By`, value: user.name });
 
@@ -32,9 +32,8 @@ export const getWebhookEventEmbed = async (
   const embed_json = new MessageEmbed()
    .setColor(data.state?.color as HexColorString)
    .setTitle(title)
-   .setDescription(description || '')
+   .setDescription(description)
    .setURL(url)
-   .setDescription(issue?.description || '')
    .addFields(fields)
    .setTimestamp()
    .setFooter({
@@ -42,27 +41,20 @@ export const getWebhookEventEmbed = async (
     iconURL: 'https://raw.githubusercontent.com/heyAyushh/vscode-anchor/main/assets/marketplace-logo.png',
    })
    .toJSON();
-
-  if (embed_json.description === '') {
-   delete embed_json.description;
-  }
-
   return new MessageEmbed(embed_json);
  } if (type === 'Comment') {
   const issue = await linear.issue(data.issueId);
   title = `${capitalize(type)}: ${issue.identifier} ${capitalize(action)}`;
-  if (issue?.description) {
-   description = data.body;
-  }
+  description = `${issue.title}. \n`;
+  description += issue?.description ?? '';
   const user = await linear.user(data.userId);
   fields?.push({ name: `${capitalize(action)} By`, value: user.name });
 
   const embed_json = new MessageEmbed()
    .setColor('#E91E63' as HexColorString)
    .setTitle(title)
-   .setDescription(description || '')
+   .setDescription(description)
    .setURL(url)
-   .setDescription(issue?.description || '')
    .addFields(fields)
    .setTimestamp()
    .setFooter({
@@ -70,10 +62,6 @@ export const getWebhookEventEmbed = async (
     iconURL: 'https://raw.githubusercontent.com/heyAyushh/vscode-anchor/main/assets/marketplace-logo.png',
    })
    .toJSON();
-
-  if (embed_json.description === '') {
-   delete embed_json.description;
-  }
 
   return new MessageEmbed(embed_json);
  }
